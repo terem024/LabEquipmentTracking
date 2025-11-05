@@ -1,5 +1,6 @@
 <?php
-session_start();
+  session_start();
+include 'db_connect.php';
 
 if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] === true) {
     header("Location: Home.php");
@@ -10,37 +11,40 @@ $error = '';
 $success = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  $name = trim($_POST['name']);
-  $password = trim($_POST['password']);
-  $confirm = trim($_POST['Confirmpassword']);
+    $name = trim($_POST['name']);
+    $password = trim($_POST['password']);
+    $confirm = trim($_POST['Confirmpassword']);
 
-  if ($password !== $confirm) {
-    $error = "Passwords do not match.";
-  } elseif (empty($name) || empty($password)) {
-    $error = "All fields are required.";
-  } else {
-    // Store user in session array
-    if (!isset($_SESSION['users'])) {
-      $_SESSION['users'] = array();
-    }
-    // Check if username already exists
-    $exists = false;
-    foreach ($_SESSION['users'] as $user) {
-      if ($user['name'] === $name) {
-        $exists = true;
-        break;
-      }
-    }
-    if ($exists) {
-      $error = "Username already exists.";
+    if (empty($name) || empty($password)) {
+        $error = "All fields are required.";
+    } elseif ($password !== $confirm) {
+        $error = "Passwords do not match.";
     } else {
-      $_SESSION['users'][] = array('name' => $name, 'password' => $password);
-      $_SESSION['user_logged_in'] = true;
-      $_SESSION['user_name'] = $name;
-      $success = "Registration successful! Redirecting...";
-      header("refresh:2;url=Home.php");
+        $check = $conn->prepare("SELECT * FROM users WHERE full_name = ?");
+        $check->bind_param("s", $name);
+        $check->execute();
+        $result = $check->get_result();
+
+        if ($result->num_rows > 0) {
+            $error = "Username already exists.";
+        } else {
+            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+            $school_id = "S" . rand(1000, 9999);
+
+            $stmt = $conn->prepare("INSERT INTO users (school_id, full_name, role, password_hash) VALUES (?, ?, 'student', ?)");
+            $stmt->bind_param("sss", $school_id, $name, $hashed_password);
+
+            if ($stmt->execute()) {
+                $_SESSION['user_logged_in'] = true;
+                $_SESSION['user_name'] = $name;
+                $success = "Registration successful! Redirecting...";
+                header("refresh:2;url=Home.php");
+            } else {
+                $error = "Error registering user: " . $conn->error;
+            }
+        }
     }
-  }
 }
 ?>
 

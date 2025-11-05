@@ -1,7 +1,8 @@
 <?php
 session_start();
 
-// Redirect if already logged in
+include 'db_connect.php';
+
 if (!empty($_SESSION['admin_logged_in'])) {
     header('Location: AdminDashboard.php');
     exit;
@@ -64,15 +65,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         function togglePassword() {
             const pass = document.getElementById('password');
             pass.type = pass.type === 'password' ? 'text' : 'password';
-        }
-
-        function exitApp() {
-            try {
-                window.close();
-                setTimeout(() => window.location.href = 'index.php', 200);
-            } catch {
-                window.location.href = 'index.php';
-            }
         }
     </script>
 </body>

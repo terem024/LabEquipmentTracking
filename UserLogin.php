@@ -13,17 +13,27 @@ $valid_pass = "12345";
 $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $name = trim($_POST['name']);
-    $password = trim($_POST['password']);
+  $name = trim($_POST['name']);
+  $password = trim($_POST['password']);
 
-    if ($name === $valid_user && $password === $valid_pass) {
-        $_SESSION['user_logged_in'] = true;
-        $_SESSION['user_name'] = $name;
-        header("Location: Home.php");
-        exit;
-    } else {
-        $error = "Invalid name or password.";
+  $found = false;
+  if (isset($_SESSION['users'])) {
+    foreach ($_SESSION['users'] as $user) {
+      if ($user['name'] === $name && $user['password'] === $password) {
+        $found = true;
+        break;
+      }
     }
+  }
+  // Fallback to hardcoded account if no users or not found
+  if ($found || ($name === $valid_user && $password === $valid_pass)) {
+    $_SESSION['user_logged_in'] = true;
+    $_SESSION['user_name'] = $name;
+    header("Location: Home.php");
+    exit;
+  } else {
+    $error = "Invalid name or password.";
+  }
 }
 ?>
 
@@ -36,13 +46,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <link rel="stylesheet" href="style.css">
 </head>
 <body class="login-body">
-
-  <div class="nav-menu">
-    <a href="Home.php" class="nav-link">Home</a>
-    <a href="BorrowEquipment.php" class="nav-link">Borrow</a>
-    <a href="ReturnEquipment.php" class="nav-link">Return</a>
-    <a href="UserInfo.php" class="nav-link">User</a>
-  </div>
 
   <main class="form-page">
     <div class="form-container">

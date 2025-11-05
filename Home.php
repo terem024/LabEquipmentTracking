@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['logout'])) {
     </header>
 
     <nav class="navbar">
-        <a href="UserDashboard.php" class="nav-link active">Dashboard</a>
+        <a href="Home.php" class="nav-link active">Dashboard</a>
         <a href="BorrowEquipment.php" class="nav-link">Borrow</a>
         <a href="ReturnEquipment.php" class="nav-link">Return</a>
         <a href="UserProfile.php" class="nav-link">User</a>

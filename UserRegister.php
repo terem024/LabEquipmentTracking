@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-// If already logged in, redirect to home
 if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] === true) {
     header("Location: Home.php");
     exit;
@@ -11,21 +10,37 @@ $error = '';
 $success = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $name = trim($_POST['name']);
-    $password = trim($_POST['password']);
-    $confirm = trim($_POST['Confirmpassword']);
+  $name = trim($_POST['name']);
+  $password = trim($_POST['password']);
+  $confirm = trim($_POST['Confirmpassword']);
 
-    if ($password !== $confirm) {
-        $error = "Passwords do not match.";
-    } elseif (empty($name) || empty($password)) {
-        $error = "All fields are required.";
-    } else {
-        // Simulate account creation
-        $_SESSION['user_logged_in'] = true;
-        $_SESSION['user_name'] = $name;
-        $success = "Registration successful! Redirecting...";
-        header("refresh:2;url=Home.php");
+  if ($password !== $confirm) {
+    $error = "Passwords do not match.";
+  } elseif (empty($name) || empty($password)) {
+    $error = "All fields are required.";
+  } else {
+    // Store user in session array
+    if (!isset($_SESSION['users'])) {
+      $_SESSION['users'] = array();
     }
+    // Check if username already exists
+    $exists = false;
+    foreach ($_SESSION['users'] as $user) {
+      if ($user['name'] === $name) {
+        $exists = true;
+        break;
+      }
+    }
+    if ($exists) {
+      $error = "Username already exists.";
+    } else {
+      $_SESSION['users'][] = array('name' => $name, 'password' => $password);
+      $_SESSION['user_logged_in'] = true;
+      $_SESSION['user_name'] = $name;
+      $success = "Registration successful! Redirecting...";
+      header("refresh:2;url=Home.php");
+    }
+  }
 }
 ?>
 
@@ -38,13 +53,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <link rel="stylesheet" href="style.css">
 </head>
 <body class="login-body">
-
-  <div class="nav-menu">
-    <a href="Home.php" class="nav-link">Home</a>
-    <a href="BorrowEquipment.php" class="nav-link">Borrow</a>
-    <a href="ReturnEquipment.php" class="nav-link">Return</a>
-    <a href="UserInfo.php" class="nav-link">User</a>
-  </div>
 
   <main class="form-page">
     <div class="form-container">

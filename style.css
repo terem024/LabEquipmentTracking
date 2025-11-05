@@ -44,6 +44,9 @@ body {
 .login-body {
   min-height: 100vh;
   background: linear-gradient(135deg, #0077b6, #00b4d8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .login-box {
@@ -53,6 +56,8 @@ body {
   border-radius: 12px;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
   backdrop-filter: blur(12px);
+  justify-content: center;
+  align-items: center;
 }
 
 .login-box h2 {

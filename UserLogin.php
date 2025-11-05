@@ -1,41 +1,41 @@
 <?php
 session_start();
+include 'db_connect.php';
 
-// If already logged in, redirect to home
 if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] === true) {
     header("Location: Home.php");
     exit;
 }
 
-// Temporary hardcoded login (replace with DB query later)
-$valid_user = "student";
-$valid_pass = "12345";
 $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  $name = trim($_POST['name']);
-  $password = trim($_POST['password']);
+    $name = trim($_POST['name']);
+    $password = trim($_POST['password']);
 
-  $found = false;
-  if (isset($_SESSION['users'])) {
-    foreach ($_SESSION['users'] as $user) {
-      if ($user['name'] === $name && $user['password'] === $password) {
-        $found = true;
-        break;
-      }
+    $stmt = $conn->prepare("SELECT * FROM users WHERE full_name = ?");
+    $stmt->bind_param("s", $name);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows === 1) {
+        $user = $result->fetch_assoc();
+
+        if (password_verify($password, $user['password_hash'])) {
+            $_SESSION['user_logged_in'] = true;
+            $_SESSION['user_name'] = $user['full_name'];
+            $_SESSION['user_role'] = $user['role'];
+            header("Location: Home.php");
+            exit;
+        } else {
+            $error = "Invalid password.";
+        }
+    } else {
+        $error = "User not found.";
     }
-  }
-  // Fallback to hardcoded account if no users or not found
-  if ($found || ($name === $valid_user && $password === $valid_pass)) {
-    $_SESSION['user_logged_in'] = true;
-    $_SESSION['user_name'] = $name;
-    header("Location: Home.php");
-    exit;
-  } else {
-    $error = "Invalid name or password.";
-  }
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">

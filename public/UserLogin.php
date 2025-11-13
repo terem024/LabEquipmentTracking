@@ -1,9 +1,9 @@
 <?php
 session_start();
-include 'db_connect.php';
+include '../config/dbConnection.php';
 
 if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] === true) {
-    header("Location: Home.php");
+    header("Location: ../user/Home.php");
     exit;
 }
 
@@ -13,19 +13,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = trim($_POST['name']);
     $password = trim($_POST['password']);
 
-    $stmt = $conn->prepare("SELECT * FROM users WHERE full_name = ?");
-    $stmt->bind_param("s", $name);
-    $stmt->execute();
-    $result = $stmt->get_result();
+    // 🔒 Check for admin credentials first
+    if ($name === 'admin' && $password === 'admin123') {
+        $_SESSION['user_logged_in'] = true;
+        $_SESSION['user_name'] = 'Administrator';
+        $_SESSION['user_role'] = 'admin';
+        header("Location: ../admin/userManagement.php");
+        exit;
+    }
 
-    if ($result->num_rows === 1) {
-        $user = $result->fetch_assoc();
+    // 🧠 Otherwise, check in database for normal users
+    $stmt = $conn->prepare("SELECT * FROM users WHERE full_name = :name");
+    $stmt->execute([':name' => $name]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
+    if ($user) {
         if (password_verify($password, $user['password_hash'])) {
             $_SESSION['user_logged_in'] = true;
             $_SESSION['user_name'] = $user['full_name'];
             $_SESSION['user_role'] = $user['role'];
-            header("Location: Home.php");
+
+            header("Location: ../user/Home.php");
             exit;
         } else {
             $error = "Invalid password.";
@@ -36,14 +44,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>User Login</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="../assets/style.css">
 </head>
 <body class="login-body">
 

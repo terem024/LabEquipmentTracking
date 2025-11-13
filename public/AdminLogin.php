@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-include 'db_connect.php';
+include '../config/dbConnection.php';
 
 if (!empty($_SESSION['admin_logged_in'])) {
     header('Location: userManagement.php');
@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Login</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../assets/style.css">
 </head>
 <body class="login-body">
     <div class="login-box">

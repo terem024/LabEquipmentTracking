@@ -1,10 +1,9 @@
 <?php
-require_once __DIR__ . '/../config/DbConnection.php';
+require_once __DIR__ . '/../config/dbConnection.php';
 require_once __DIR__ . '/../config/helpers.php';
 
 $pageContent = '';
-$conn = dbConnect();
-
+$conn = dbConnection();
 // Fetch all equipments
 $stmt = $conn->query("SELECT * FROM lab_equipments ORDER BY created_at DESC");
 $equipments = $stmt->fetchAll(PDO::FETCH_ASSOC);

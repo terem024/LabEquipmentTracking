@@ -1,9 +1,9 @@
 <?php
-  session_start();
-include 'db_connect.php';
+session_start();
+include '../config/dbConnection.php';
 
 if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] === true) {
-    header("Location: Home.php");
+    header("Location: ../user/Home.php");
     exit;
 }
 
@@ -15,33 +15,47 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = trim($_POST['password']);
     $confirm = trim($_POST['Confirmpassword']);
 
-    if (empty($name) || empty($password)) {
+    $sr_code = trim($_POST['sr_code']);
+    
+    // Validate SR Code format (2 digits, hyphen, 5 digits)
+    if (!preg_match('/^\d{2}-\d{5}$/', $sr_code)) {
+        $error = "SR Code must be in format: XX-XXXXX (e.g., 21-12345)";
+    } elseif (empty($name) || empty($password) || empty($sr_code)) {
         $error = "All fields are required.";
     } elseif ($password !== $confirm) {
         $error = "Passwords do not match.";
     } else {
-        $check = $conn->prepare("SELECT * FROM users WHERE full_name = ?");
-        $check->bind_param("s", $name);
-        $check->execute();
-        $result = $check->get_result();
+        // Check if username or SR code already exists
+        $check = $conn->prepare("SELECT * FROM users WHERE full_name = :name OR sr_code = :sr_code");
+        $check->execute([':name' => $name, ':sr_code' => $sr_code]);
+        $result = $check->fetch(PDO::FETCH_ASSOC);
 
-        if ($result->num_rows > 0) {
-            $error = "Username already exists.";
+        if ($result) {
+            if ($result['full_name'] === $name) {
+                $error = "Username already exists.";
+            } else {
+                $error = "SR code already exists.";
+            }
         } else {
             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-            $school_id = "S" . rand(1000, 9999);
+            // Insert new user
+            $stmt = $conn->prepare("INSERT INTO users (sr_code, full_name, role, password_hash) 
+                                    VALUES (:sr_code, :full_name, 'student', :password_hash)");
 
-            $stmt = $conn->prepare("INSERT INTO users (school_id, full_name, role, password_hash) VALUES (?, ?, 'student', ?)");
-            $stmt->bind_param("sss", $school_id, $name, $hashed_password);
+            $inserted = $stmt->execute([
+                ':sr_code' => $sr_code,
+                ':full_name' => $name,
+                ':password_hash' => $hashed_password
+            ]);
 
-            if ($stmt->execute()) {
+            if ($inserted) {
                 $_SESSION['user_logged_in'] = true;
                 $_SESSION['user_name'] = $name;
                 $success = "Registration successful! Redirecting...";
-                header("refresh:2;url=Home.php");
+                header("refresh:2;url=../user/Home.php");
             } else {
-                $error = "Error registering user: " . $conn->error;
+                $error = "Error registering user.";
             }
         }
     }
@@ -54,7 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>User Register</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="../assets/style.css">
 </head>
 <body class="login-body">
 
@@ -74,6 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php endif; ?>
 
         <input type="text" name="name" placeholder="Name" required>
+        <input type="text" name="sr_code" placeholder="SR Code" required>
         <input type="password" name="password" placeholder="Password" required>
         <input type="password" name="Confirmpassword" placeholder="Confirm Password" required>
 

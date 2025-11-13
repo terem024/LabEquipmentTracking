@@ -3,7 +3,6 @@ require_once __DIR__ . '/../config/DbConnection.php';
 require_once __DIR__ . '/../config/helpers.php';
 
 $pageContent = '';
-$conn = dbConnect();
 
 // Fetch all users
 $stmt = $conn->query("SELECT * FROM users ORDER BY created_at DESC");

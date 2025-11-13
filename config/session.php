@@ -18,7 +18,7 @@ if (isset($_SESSION['last_activity'])) {
         session_destroy();
         session_start();
         setFlash('warning', 'You were logged out due to inactivity.');
-        header("Location: ../login.php");
+        header("Location: ../public/UserLogin.php");
         exit();
     }
 }
@@ -32,7 +32,7 @@ if (isset($_SESSION['client_fingerprint'])) {
         session_destroy();
         session_start();
         setFlash('warning', 'You have been logged out for security reasons. Please sign in again.');
-        header("Location: ../login.php");
+        header("Location: ../public/UserLogin.php");
         exit();
     }
 } else {

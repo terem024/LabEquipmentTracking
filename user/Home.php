@@ -5,20 +5,6 @@ if (!isset($_SESSION['user_logged_in']) || $_SESSION['user_logged_in'] !== true)
     header("Location: UserLogin.php");
     exit;
 }
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['logout'])) {
-    $_SESSION = [];
-    if (ini_get('session.use_cookies')) {
-        $params = session_get_cookie_params();
-        setcookie(session_name(), '', time() - 42000,
-            $params['path'], $params['domain'],
-            $params['secure'], $params['httponly']
-        );
-    }
-    session_destroy();
-    header('Location: UserLogin.php');
-    exit;
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -26,15 +12,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['logout'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Dashboard</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../assets/style.css">
+    <script src="../config/cookies.js"></script>
 </head>
 <body class="dashboard-body">
 
     <header class="topbar">
         <h1>Lab Equipment Tracking</h1>
-        <div class="admin-area">
+            <div class="admin-area">
             <span>Welcome, User</span>
-            <form method="post" class="logout-form">
+            <form method="post" class="logout-form" action="../public/logout.php">
                 <input type="hidden" name="logout" value="1">
                 <button type="submit" class="btn danger">Logout</button>
             </form>
@@ -43,9 +30,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['logout'])) {
 
     <nav class="navbar">
         <a href="Home.php" class="nav-link active">Dashboard</a>
-        <a href="BorrowEquipment.php" class="nav-link">Borrow</a>
-        <a href="ReturnEquipment.php" class="nav-link">Return</a>
-        <a href="UserProfile.php" class="nav-link">User</a>
+        <a href="borrowEquipment.php" class="nav-link">Borrow</a>
+        <a href="returnEquipment.php" class="nav-link">Return</a>
+        <a href="userInfo.php" class="nav-link">User</a>
     </nav>
 
     <main class="dashboard-content">
@@ -79,3 +66,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['logout'])) {
 
 </body>
 </html>
+
+

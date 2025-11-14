@@ -13,7 +13,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = trim($_POST['name']);
     $password = trim($_POST['password']);
 
-    // 🔒 Check for admin credentials first
     if ($name === 'admin' && $password === 'admin123') {
         $_SESSION['user_logged_in'] = true;
         $_SESSION['user_name'] = 'Administrator';
@@ -22,13 +21,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    // 🧠 Otherwise, check in database for normal users
-    $stmt = $conn->prepare("SELECT * FROM users WHERE full_name = :name");
+    $stmt = $conn->prepare("SELECT * FROM users WHERE full_name = :name LIMIT 1");
     $stmt->execute([':name' => $name]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($user) {
-        if (password_verify($password, $user['password_hash'])) {
+        $input_hash = hash("sha256", $password);
+
+        if ($input_hash === $user['password_hash']) {
             $_SESSION['user_logged_in'] = true;
             $_SESSION['user_name'] = $user['full_name'];
             $_SESSION['user_role'] = $user['role'];
@@ -67,7 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <input type="password" name="password" placeholder="Password" required>
 
         <button type="submit">Login</button>
-        <p>Don't have an account? <a href="UserRegister.php">Register here</a></p>
+        <p>Don't have an account? <a href="Register.php">Register here</a></p>
       </form>
     </div>
   </main>

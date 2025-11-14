@@ -14,10 +14,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = trim($_POST['name']);
     $password = trim($_POST['password']);
     $confirm = trim($_POST['Confirmpassword']);
-
     $sr_code = trim($_POST['sr_code']);
-    
-    // Validate SR Code format (2 digits, hyphen, 5 digits)
+
+    // Validate SR Code
     if (!preg_match('/^\d{2}-\d{5}$/', $sr_code)) {
         $error = "SR Code must be in format: XX-XXXXX (e.g., 21-12345)";
     } elseif (empty($name) || empty($password) || empty($sr_code)) {
@@ -25,8 +24,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif ($password !== $confirm) {
         $error = "Passwords do not match.";
     } else {
-        // Check if username or SR code already exists
-        $check = $conn->prepare("SELECT * FROM users WHERE full_name = :name OR sr_code = :sr_code");
+        // Check duplicates
+        $check = $conn->prepare("SELECT * FROM users 
+                                 WHERE full_name = :name OR sr_code = :sr_code");
         $check->execute([':name' => $name, ':sr_code' => $sr_code]);
         $result = $check->fetch(PDO::FETCH_ASSOC);
 
@@ -37,16 +37,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $error = "SR code already exists.";
             }
         } else {
-            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+            // SHA256 hash
+            $password_hash = hash("sha256", $password);
 
-            // Insert new user
-            $stmt = $conn->prepare("INSERT INTO users (sr_code, full_name, role, password_hash) 
-                                    VALUES (:sr_code, :full_name, 'student', :password_hash)");
+            // Insert user
+            $stmt = $conn->prepare("INSERT INTO users 
+                (sr_code, full_name, role, password_hash) 
+                VALUES (:sr_code, :full_name, 'student', :password_hash)");
 
             $inserted = $stmt->execute([
                 ':sr_code' => $sr_code,
                 ':full_name' => $name,
-                ':password_hash' => $hashed_password
+                ':password_hash' => $password_hash
             ]);
 
             if ($inserted) {
@@ -88,12 +90,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php endif; ?>
 
         <input type="text" name="name" placeholder="Name" required>
-        <input type="text" name="sr_code" placeholder="SR Code" required>
+        <input type="text" name="sr_code" placeholder="SR Code (e.g., 21-12345)" required>
         <input type="password" name="password" placeholder="Password" required>
         <input type="password" name="Confirmpassword" placeholder="Confirm Password" required>
 
         <button type="submit">Register</button>
-        <p>Already have an account? <a href="UserLogin.php">Login here</a></p>
+        <p>Already have an account? <a href="Login.php">Login here</a></p>
       </form>
     </div>
   </main>

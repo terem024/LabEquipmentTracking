@@ -15,5 +15,5 @@ if (ini_get('session.use_cookies')) {
 session_destroy();
 
 // Redirect to the public login page
-header('Location: UserLogin.php');
+header('Location: Login.php');
 exit;

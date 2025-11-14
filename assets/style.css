@@ -238,7 +238,7 @@ input[type="email"]:focus {
 
 .intro-card:hover {
   transform: translateY(-3px);
-  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 6px 10px #0077b6
 }
 
 .intro-card h3 {
@@ -251,8 +251,6 @@ input[type="email"]:focus {
   font-size: 0.95rem;
 }
 
-/* === FORM PAGES (for user login/register pages) === */
-/* Center the form on the page, keep blue background for form area */
 .form-page {
   display: flex;
   align-items: center;
@@ -366,41 +364,66 @@ input[type="email"]:focus {
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
 }
 
-.cookie-popup {
-  position: fixed;
-  bottom: 20px;
-  left: 20px;
-  right: 20px;
-  background: #222;
-  color: #fff;
-  padding: 15px;
-  border-radius: 10px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 14px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-  z-index: 9999;
+#cookie-banner {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+    background: #222;
+    color: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    display: none; 
+    font-size: 14px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    z-index: 99999;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-.cookie-buttons {
-  display: flex;
-  gap: 10px;
+#cookie-banner button {
+    background: #4caf50;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
 }
 
-.cookie-buttons button {
-  padding: 8px 14px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
+#cookie-banner button:hover {
+    opacity: 0.9;
 }
 
-#acceptCookies {
-  background-color: #4CAF50;
-  color: white;
-}
-
-#declineCookies {
-  background-color: #f44336;
-  color: white;
-}
+    .profile-container {
+      max-width: 400px;
+      margin: 30px auto;
+      padding: 20px 30px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background-color: #fafafa;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      font-family: Arial, sans-serif;
+    }
+    .profile-container h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+    .profile-row {
+      margin-bottom: 15px;
+    }
+    .profile-label {
+      font-weight: bold;
+      color: #555;
+      margin-bottom: 5px;
+      display: block;
+    }
+    .profile-value {
+      background-color: white;
+      padding: 8px 12px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      user-select: text;
+    }

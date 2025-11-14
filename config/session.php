@@ -3,8 +3,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// --- SESSION SECURITY SETTINGS ---
-$SESSION_TIMEOUT = 600; // 10 minutes
+$SESSION_TIMEOUT = 600;
 
 if (!function_exists('setFlash')) {
     function setFlash($type, $message) {

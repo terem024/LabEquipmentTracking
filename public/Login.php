@@ -41,6 +41,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         $error = "User not found.";
     }
+    
+          // store sr_code from DB in session if available
+          if (isset($user['sr_code'])) {
+            $_SESSION['sr_code'] = $user['sr_code'];
+          }
 }
 ?>
 

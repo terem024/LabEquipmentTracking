@@ -54,6 +54,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($inserted) {
                 $_SESSION['user_logged_in'] = true;
                 $_SESSION['user_name'] = $name;
+                // store sr_code in session for easy access
+                $_SESSION['sr_code'] = $sr_code;
                 $success = "Registration successful! Redirecting...";
                 header("refresh:2;url=../user/Home.php");
             } else {

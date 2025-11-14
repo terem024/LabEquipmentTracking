@@ -28,10 +28,10 @@ if (!isset($_SESSION['user_logged_in']) || $_SESSION['user_logged_in'] !== true)
     </header>
 
     <nav class="navbar">
-        <a href="Home.php" class="nav-link">Dashboard</a>
+        <a href="Home.php" class="nav-link active">Dashboard</a>
         <a href="borrowEquipment.php" class="nav-link">Borrow</a>
-        <a href="returnEquipment.php" class="nav-link active">Return</a>
-        <a href="userInfo.php" class="nav-link">User</a>
+        <a href="returnEquipment.php" class="nav-link">Return</a>
+        <a href="userProfile.php" class="nav-link">User Profile</a>
     </nav>
 
     <main class="borrow-return-body">

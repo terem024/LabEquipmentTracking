@@ -1,16 +1,22 @@
 <?php
+class Database {
+    private $host = "localhost";
+    private $db_name = "lab_rfid_system";
+    private $username = "root";
+    private $password = "";
+    public $conn;
 
-$host = "localhost";
-$dbname = "lab_rfid_system";
-$username = "root";
-$password = "";
+    public function getConnect() {
+        $this->conn = null;
 
-try {
-    $conn = new PDO("mysql:host=$host;port=3307;dbname=$dbname;charset=utf8mb4", $username, $password);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        try {
+            $this->conn = new PDO("mysql:host=" . $this->host . ";dbname=" . $this->db_name, $this->username, $this->password);
+            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        } catch(PDOException $exception) {
+            echo "Connection error: " . $exception->getMessage();
+        }
 
-    date_default_timezone_set('Asia/Manila');
-} catch (PDOException $e) {
-    die("Database Connection Failed: " . $e->getMessage());
+        return $this->conn;
+    }
 }
-?>
+?> 

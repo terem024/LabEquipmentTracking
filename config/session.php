@@ -3,14 +3,18 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-$SESSION_TIMEOUT = 600;
+$SESSION_TIMEOUT = 600; // 10 minutes inactivity logout
 
+// Flash message function
 if (!function_exists('setFlash')) {
     function setFlash($type, $message) {
         $_SESSION['flash'] = ['type' => $type, 'message' => $message];
     }
 }
 
+/* ------------------------------
+   AUTO-LOGOUT ON INACTIVITY
+------------------------------ */
 if (isset($_SESSION['last_activity'])) {
     if (time() - $_SESSION['last_activity'] > $SESSION_TIMEOUT) {
         session_unset();
@@ -23,6 +27,9 @@ if (isset($_SESSION['last_activity'])) {
 }
 $_SESSION['last_activity'] = time();
 
+/* ------------------------------
+   CLIENT FINGERPRINT VALIDATION
+------------------------------ */
 if (isset($_SESSION['client_fingerprint'])) {
     $currentFingerprint = $_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT'];
 
@@ -34,6 +41,14 @@ if (isset($_SESSION['client_fingerprint'])) {
         header("Location: ../public/UserLogin.php");
         exit();
     }
+
 } else {
     $_SESSION['client_fingerprint'] = $_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT'];
+}
+
+/* ------------------------------
+   CSRF TOKEN (SECURE & GLOBAL)
+------------------------------ */
+if (!isset($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }

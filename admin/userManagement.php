@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../config/DbConnection.php';
+require_once __DIR__ . '/../config/dbConnection.php';
 require_once __DIR__ . '/../config/helpers.php';
 
 $pageContent = '';

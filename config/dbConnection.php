@@ -1,22 +1,35 @@
 <?php
 class Database {
     private $host = "localhost";
-    private $db_name = "lab_rfid_system";
+    private $dbname = "lab_rfid_system";
     private $username = "root";
     private $password = "";
-    public $conn;
+    private $conn;
 
     public function getConnect() {
-        $this->conn = null;
-
-        try {
-            $this->conn = new PDO("mysql:host=" . $this->host . ";dbname=" . $this->db_name, $this->username, $this->password);
-            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        } catch(PDOException $exception) {
-            echo "Connection error: " . $exception->getMessage();
+        if ($this->conn === null) {
+            try {
+                $this->conn = new PDO(
+                    "mysql:host={$this->host};dbname={$this->dbname}",
+                    $this->username,
+                    $this->password,
+                    [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
+                );
+            } catch (PDOException $e) {
+                die("Connection failed: " . $e->getMessage());
+            }
         }
-
         return $this->conn;
     }
 }
-?> 
+
+function db() {
+    static $db = null;
+
+    if ($db === null) {
+        $database = new Database();
+        $db = $database->getConnect();
+    }
+
+    return $db;
+}

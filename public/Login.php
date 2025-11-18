@@ -1,9 +1,10 @@
 <?php
 session_start();
 include '../config/dbConnection.php';
+$conn = db();
 
 if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] === true) {
-    header("Location: ../user/Home.php");
+    header("Location: ../user/home.php");
     exit;
 }
 
@@ -25,27 +26,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->execute([':name' => $name]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if ($user) {
-        $input_hash = hash("sha256", $password);
+if ($user) {
+    $input_hash = hash("sha256", $password);
 
-        if ($input_hash === $user['password_hash']) {
-            $_SESSION['user_logged_in'] = true;
-            $_SESSION['user_name'] = $user['full_name'];
-            $_SESSION['user_role'] = $user['role'];
+    if ($input_hash === $user['password_hash']) {
+        $_SESSION['user_logged_in'] = true;
+        $_SESSION['user_name'] = $user['full_name'];
+        $_SESSION['user_role'] = $user['role'];
 
-            header("Location: ../user/Home.php");
-            exit;
-        } else {
-            $error = "Invalid password.";
-        }
-    } else {
-        $error = "User not found.";
-    }
-    
-          // store sr_code from DB in session if available
-          if (isset($user['sr_code'])) {
+        // store sr_code only when user is found & authenticated
+        if (!empty($user['sr_code'])) {
             $_SESSION['sr_code'] = $user['sr_code'];
-          }
+        }
+
+        header("Location: ../user/home.php");
+        exit;
+    } else {
+        $error = "Invalid password.";
+    }
+} else {
+    $error = "User not found.";
+}
+
 }
 ?>
 
@@ -72,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <input type="password" name="password" placeholder="Password" required>
 
         <button type="submit">Login</button>
-        <p>Don't have an account? <a href="Register.php">Register here</a></p>
+        <p>Don't have an account? <a href="register.php">Register here</a></p>
       </form>
     </div>
   </main>

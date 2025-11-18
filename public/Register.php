@@ -1,9 +1,10 @@
 <?php
 session_start();
 include '../config/dbConnection.php';
+$conn = db();
 
 if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] === true) {
-    header("Location: ../user/Home.php");
+    header("Location: ../user/home.php");
     exit;
 }
 
@@ -57,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 // store sr_code in session for easy access
                 $_SESSION['sr_code'] = $sr_code;
                 $success = "Registration successful! Redirecting...";
-                header("refresh:2;url=../user/Home.php");
+                header("refresh:2;url=../user/home.php");
             } else {
                 $error = "Error registering user.";
             }
@@ -97,7 +98,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <input type="password" name="Confirmpassword" placeholder="Confirm Password" required>
 
         <button type="submit">Register</button>
-        <p>Already have an account? <a href="Login.php">Login here</a></p>
+        <p>Already have an account? <a href="login.php">Login here</a></p>
       </form>
     </div>
   </main>

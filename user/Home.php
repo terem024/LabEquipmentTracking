@@ -2,7 +2,7 @@
 session_start();
 
 if (!isset($_SESSION['user_logged_in']) || $_SESSION['user_logged_in'] !== true) {
-    header("Location: ../public/Login.php");
+    header("Location: ../public/login.php");
     exit;
 }
 
@@ -47,10 +47,10 @@ $displayName = $_SESSION['user_name'] ?? $fullName;
 </header>
 
 <nav class="navbar">
-    <a href="/LabEquipmentTracking/user/Home.php" class="nav-link">Dashboard</a>
-    <a href="/LabEquipmentTracking/user/borrowEquipment.php" class="nav-link">Borrow</a>
-    <a href="/LabEquipmentTracking/user/returnEquipment.php" class="nav-link">Return</a>
-    <a href="/LabEquipmentTracking/user/userProfile.php" class="nav-link">User Profile</a>
+        <a href="home.php" class="nav-link active">Dashboard</a>
+        <a href="borrowEquipment.php" class="nav-link">Borrow</a>
+        <a href="returnEquipment.php" class="nav-link">Return</a>
+        <a href="userProfile.php" class="nav-link">User Profile</a>
 </nav>
 
 <main class="dashboard-content">

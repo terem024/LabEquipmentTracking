@@ -39,93 +39,7 @@ body {
   background: #a0001f;
 }
 
-/* === LOGIN & REGISTER === */
-/* === LOGIN/REGISTER PAGE BODY === */
-.login-body {
-  min-height: 100vh;
-  background: linear-gradient(135deg, #0077b6, #00b4d8);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.login-box {
-  background: rgba(255, 255, 255, 0.95);
-  padding: 2rem;
-  width: 340px;
-  border-radius: 12px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-  backdrop-filter: blur(12px);
-  justify-content: center;
-  align-items: center;
-}
-
-.login-box h2 {
-  text-align: center;
-  color: #023e8a;
-  margin-bottom: 1.5rem;
-}
-
-label {
-  font-weight: 500;
-  margin-top: 0.75rem;
-  display: block;
-}
-
-input[type="text"],
-input[type="password"],
-input[type="email"] {
-  width: 100%;
-  padding: 10px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  margin-top: 0.25rem;
-  box-sizing: border-box;
-  outline: none;
-  transition: 0.3s;
-}
-
-input[type="text"]:focus,
-input[type="password"]:focus,
-input[type="email"]:focus {
-  border-color: #0077b6;
-  box-shadow: 0 0 6px rgba(0, 119, 182, 0.3);
-}
-
-.show-pass-row {
-  margin-top: 0.6rem;
-  margin-bottom: 1rem;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 0.9rem;
-}
-
-.error {
-  background: #ffe5e5;
-  color: #d90429;
-  padding: 10px;
-  border-radius: 6px;
-  text-align: center;
-  margin-bottom: 10px;
-}
-
-.login-box p {
-  text-align: center;
-  margin-top: 1rem;
-}
-
-.login-box a {
-  color: #0077b6;
-  font-weight: 600;
-  text-decoration: none;
-}
-
-.login-box a:hover {
-  text-decoration: underline;
-}
-
-/* === DASHBOARD GENERAL === */
+/* DASHBOARD GENERAL */
 .dashboard-body {
   background: #f1f5f9;
   min-height: 100vh;
@@ -154,7 +68,6 @@ input[type="email"]:focus {
 }
 
 /* Navbar */
-/* === NAVBAR (white background for login/register) === */
 .navbar {
   display: flex;
   justify-content: center;
@@ -193,7 +106,7 @@ input[type="email"]:focus {
   width: 60%;
 }
 
-/* Dashboard Main */
+/* Dashboard content */
 .dashboard-content {
   padding: 2rem;
   display: flex;
@@ -251,192 +164,109 @@ input[type="email"]:focus {
   font-size: 0.95rem;
 }
 
-.form-page {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: calc(100vh - 56px); /* leave space for navbar */
-  background: none;
-  padding: 40px 20px;
-}
-
-/* Blue background for login/register form */
-.form-container {
-  width: 100%;
-  max-width: 420px;
-  padding: 28px;
-  background: linear-gradient(135deg, #0077b6, #00b4d8);
-  border-radius: 15px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  backdrop-filter: blur(12px);
-}
-
-.form-container h2 {
-  text-align: center;
-  margin: 0 0 18px 0;
-  font-size: 22px;
-  color: #fff;
-}
-
-.form-container input {
-  width: 100%;
-  padding: 12px;
-  margin: 10px 0;
-  font-size: 15px;
-  border: none;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.25);
-  color: #fff;
-  outline: none;
-}
-
-.form-container input::placeholder {
-  color: #eee;
-}
-
-.form-container button {
-  width: 100%;
-  padding: 12px;
-  margin-top: 10px;
-  border: none;
-  border-radius: 8px;
-  font-weight: 700;
-  font-size: 15px;
-  background: rgba(0, 119, 182, 0.85);
-  color: #fff;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.form-container button:hover {
-  background: rgba(2, 62, 138, 0.9);
-}
-
-.form-container p {
-  text-align: center;
-  margin-top: 12px;
-  color: #fff;
-}
-
-.form-container a {
-  color: #caf0f8;
-  font-weight: 700;
-  text-decoration: none;
-}
-
-.form-container a:hover {
-  text-decoration: underline;
-}
-
+/* Borrow & return */
 .borrow-return-body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    height: calc(100vh - 140px); 
-    background-color: #f8f9fa;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: calc(100vh - 140px);
+  background-color: #f8f9fa;
 }
 
 .rfid-box {
-    background: #fff;
-    border-radius: 12px;
-    padding: 60px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    max-width: 600px;
+  background: #fff;
+  border-radius: 12px;
+  padding: 60px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  max-width: 600px;
 }
 
 .rfid-box h2 {
-    color: #0d6efd;
-    font-size: 1.9rem;
-    margin-bottom: 15px;
+  color: #0d6efd;
+  font-size: 1.9rem;
+  margin-bottom: 15px;
 }
 
 .rfid-box p {
-    color: #555;
-    font-size: 1.1rem;
+  color: #555;
+  font-size: 1.1rem;
 }
 
 .rfid-box:hover {
-    transform: translateY(-3px);
-    transition: all 0.3s ease;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+  transform: translateY(-3px);
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
 }
 
+/* Cookie banner */
 #cookie-banner {
-    position: fixed;
-    bottom: 20px;
-    left: 20px;
-    right: 20px;
-    background: #222;
-    color: #fff;
-    padding: 15px 20px;
-    border-radius: 8px;
-    display: none; 
-    font-size: 14px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
-    z-index: 99999;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  right: 20px;
+  background: #222;
+  color: #fff;
+  padding: 15px 20px;
+  border-radius: 8px;
+  display: none;
+  font-size: 14px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  z-index: 99999;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 #cookie-banner button {
-    background: #4caf50;
-    color: white;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 14px;
+  background: #4caf50;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
 }
 
 #cookie-banner button:hover {
-    opacity: 0.9;
+  opacity: 0.9;
 }
 
+/* Profile page */
 .profile-container {
-      max-width: 400px;
-      margin: 30px auto;
-      padding: 20px 30px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      background-color: #fafafa;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      font-family: Arial, sans-serif;
+  max-width: 400px;
+  margin: 30px auto;
+  padding: 20px 30px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #fafafa;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  font-family: Arial, sans-serif;
 }
 
 .profile-container h2 {
-      text-align: center;
-      margin-bottom: 20px;
-      color: #333;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
 }
 
 .profile-row {
-      margin-bottom: 15px;
+  margin-bottom: 15px;
 }
 
 .profile-label {
-      font-weight: bold;
-      color: #555;
-      margin-bottom: 5px;
-      display: block;
+  font-weight: bold;
+  color: #555;
+  margin-bottom: 5px;
+  display: block;
 }
 
 .profile-value {
-      background-color: white;
-      padding: 8px 12px;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      user-select: text;
+  background-color: white;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  user-select: text;
 }
 
-.success {
-    background:#d4edda;
-    color:#155724;
-    padding:10px;
-    border-radius:6px;
-    text-align:center;
-    margin-bottom:10px;
-}

@@ -1,6 +1,6 @@
 <?php
-require_once __DIR__ . '/../config/DbConnection.php';
-$conn = dbConnect();
+require_once __DIR__ . '/../config/dbConnection.php';
+$conn = dbConnection();
 
 // Auto-delete users rejected for 30+ days
 $stmt = $conn->prepare("

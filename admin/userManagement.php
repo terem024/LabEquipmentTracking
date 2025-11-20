@@ -1,7 +1,19 @@
 <?php
-require_once __DIR__ . '/../config/session.php';    // session + CSRF token
+require_once __DIR__ . '/../config/session.php';
 require_once __DIR__ . '/../config/dbConnection.php';
 
+
+
+
+if (!isset($_SESSION['user_logged_in']) || $_SESSION['user_logged_in'] !== true) {
+    header("Location: ../public/login.php");
+    exit;
+}
+
+if ($_SESSION['user_role'] === 'users') {
+    header("Location: ../users/Home.php");
+    exit;
+}
 $conn = db();
 
 // Fetch all users
@@ -15,37 +27,26 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Management</title>
 
-    <!-- Bootstrap (optional styling) -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <!-- Sidebar CSS -->
+    <link rel="stylesheet" href="../assets/adminlogout.css">
+
+    <!-- User Management CSS -->
+    <link rel="stylesheet" href="../assets//AdminAsset//userM.css">
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <!-- SweetAlert2 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-    <style>
-        body { font-family: Arial, sans-serif; background: #f4f4f4; margin: 0; }
-        .container { display: flex; min-height: 100vh; }
-        .sidebar {
-            width: 230px; background: #222; padding: 20px; color: #fff;
-        }
-        .sidebar ul { list-style: none; padding: 0; margin: 0; }
-        .sidebar li { margin: 18px 0; }
-        .sidebar a { color: #fff; text-decoration: none; font-size: 16px; }
-        .main { flex: 1; padding: 25px; }
-    </style>
 </head>
 <body>
 
-<div class="container">
     <!-- Sidebar -->
-    <div class="sidebar">
-        <h2>ADMIN DASHBOARD</h2>
-        <ul>
-            <li><a href="equipmentManagement.php">Equipment Management</a></li>
-            <li><a href="userManagement.php">User Management</a></li>
-            <li><a href="transactionHistory.php">Transaction History</a></li>
-        </ul>
-    </div>
+    <?php include '../admin/logout.php' ?>
 
     <!-- Main Content -->
     <div class="main">
@@ -127,7 +128,6 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </script>
 
     </div>
-</div>
 
 </body>
 </html>

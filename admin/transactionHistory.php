@@ -39,14 +39,7 @@ $transactions = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <body>
 <div class="container">
     <!-- Sidebar -->
-    <div class="sidebar">
-        <h2>ADMIN DASHBOARD</h2>
-        <ul>
-            <li><a href="equipmentManagement.php">Equipment Management</a></li>
-            <li><a href="userManagement.php">User Management</a></li>
-            <li><a href="transactionHistory.php">Transaction History</a></li>
-        </ul>
-    </div>
+        <?php include '../admin/logout.php' ?>
 
     <!-- Main Content -->
     <div class="main">

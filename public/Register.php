@@ -3,10 +3,7 @@ include '../config/session.php';
 include '../config/dbConnection.php';
 $conn = db();
 
-if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] === true) {
-    header("Location: ../user/home.php");
-    exit;
-}
+
 
 $error = '';
 $success = '';
@@ -27,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         // Check duplicates
         $check = $conn->prepare("SELECT * FROM users 
-                                 WHERE full_name = :name OR sr_code = :sr_code");
+                                WHERE full_name = :name OR sr_code = :sr_code");
         $check->execute([':name' => $name, ':sr_code' => $sr_code]);
         $result = $check->fetch(PDO::FETCH_ASSOC);
 

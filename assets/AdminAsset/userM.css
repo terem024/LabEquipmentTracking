@@ -1,0 +1,101 @@
+/* User Management Page Styles */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+}
+
+.container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Main content area that adjusts based on sidebar */
+.main {
+    margin-left: 250px; /* Same as sidebar width */
+    padding: 30px;
+    transition: margin-left 0.3s ease;
+    min-height: 100vh;
+    width: 100%;
+}
+
+/* When sidebar is collapsed */
+.sidebar.collapsed ~ .main {
+    margin-left: 70px; /* Same as collapsed sidebar width */
+}
+
+.main h2 {
+    margin-bottom: 25px;
+    color: #333;
+}
+
+/* Table styling */
+.table {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.table thead {
+    background: #0077b6;
+    color: white;
+}
+
+.table thead th {
+    padding: 15px;
+    font-weight: 600;
+}
+
+.table tbody td {
+    padding: 12px 15px;
+    vertical-align: middle;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+/* Button styling */
+.btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    margin: 2px;
+    transition: all 0.3s;
+}
+
+.btn-success {
+    background: #28a745;
+    color: white;
+}
+
+.btn-success:hover {
+    background: #218838;
+}
+
+.btn-danger {
+    background: #dc3545;
+    color: white;
+}
+
+.btn-danger:hover {
+    background: #c82333;
+}
+
+.btn-sm {
+    padding: 6px 12px;
+    font-size: 13px;
+}
+
+.d-inline {
+    display: inline-block;
+}

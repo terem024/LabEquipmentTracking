@@ -6,6 +6,12 @@ if (!isset($_SESSION['user_logged_in']) || $_SESSION['user_logged_in'] !== true)
     exit;
 }
 
+if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin') {
+    header("Location: ../admin/userManagement.php");
+    exit;
+}
+
+
 $userId = $_SESSION['user_id'] ?? null;
 $fullName = 'User';
 

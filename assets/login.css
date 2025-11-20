@@ -8,7 +8,7 @@ html, body {
 
 .login-body {
   min-height: 100vh;
-  background: linear-gradient(135deg, #0077b6, #00b4d8);
+  background: white;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -23,17 +23,24 @@ html, body {
 
 .left-panel {
   flex: 1;
-  background: linear-gradient(135deg, #0077b6, #00b4d8);
+  background-image: url(../assets/picture/redspartan_logo.png);
   display: flex;
   justify-content: center;
   align-items: center;
   font-family: Arial, Helvetica, sans-serif;
   height: 100%;
+  background-repeat: no-repeat;
+  background-size: 300px auto;
+  background-position: center;
 }
 
 .right-panel {
   flex: 1;
-  background: white;
+  position: relative; /* Important for overlay positioning */
+  background-image: url(../assets/picture/bsu1.jpg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
   font-family: Arial, Helvetica, sans-serif;
   color: #222;
   display: flex;
@@ -44,19 +51,43 @@ html, body {
   height: 100%;
 }
 
+
+.right-panel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  opacity: 0.5; 
+  z-index: 0;
+}
+
 .intro-box {
   max-width: 420px;
   text-align: center;
-
+  background: rgba(255, 255, 255, 0.295); 
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  padding: 40px 30px;
 }
+
 
 .right-panel h1 {
-  font-size: 2.8rem;
-  margin-bottom: 0.5rem;
-  color: #4c6dc6;
+
+  font-family: 'Righteous', sans-serif;
+  font-size: 3rem;
+  color: #f72424;
+  letter-spacing: 2px;
+  text-shadow: 2px 2px 0 #181717, 4px 4px 0 #111010;
 }
 
-.right-panel h3 {
+
+.right-panel h2 {
   margin-bottom: 1rem;
   opacity: 0.8;
 }
@@ -72,20 +103,21 @@ html, body {
   width: 100%;
   max-width: 420px;
   padding: 28px;
-  background: linear-gradient(135deg, #0077b6, #00b4d8);
+  background: transparent;
   border-radius: 15px;
-  border-right: 5px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5),  
+              0 8px 16px rgba(0, 0, 0, 0.3);   
   border: 1px solid rgba(255, 255, 255, 0.18);
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(8px);
   margin-left: 10px;
 }
 
-.form-container h2 {
+
+.form-container h1 {
   text-align: center;
   margin: 0 0 px 0;
-  font-size: 22px;
-  color: #fff;
+  color: black;
+  text-transform: uppercase;
 }
 
 .form-container input {
@@ -93,15 +125,14 @@ html, body {
   padding: 12px;
   margin: 10px 0;
   font-size: 15px;
-  border: none;
+  border-width: 1px black;
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.25);
-  color: #fff;
-  outline: none;
+  color: #000000;
 }
 
 .form-container input::placeholder {
-  color: #eee;
+  color: gray;
 }
 
 .form-container button {
@@ -125,11 +156,11 @@ html, body {
 .form-container p {
   text-align: center;
   margin-top: 12px;
-  color: #fff;
+  color: black
 }
 
 .form-container a {
-  color: #caf0f8;
+  color: #002daa;
   font-weight: 700;
   text-decoration: none;
 }
@@ -157,9 +188,3 @@ html, body {
   margin-bottom: 10px;
 }
 
-.sdg-title {
-  font-weight: bold;
-  margin-top: 0;
-  margin-bottom: 8px;
-  text-align: center;
-}

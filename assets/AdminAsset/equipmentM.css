@@ -1,0 +1,83 @@
+/* Equipment Management Page Styles */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f5f5f5;
+}
+
+/* Main content area that adjusts based on sidebar */
+.main {
+    margin-left: 250px; /* Same as sidebar width */
+    padding: 30px;
+    transition: margin-left 0.3s ease;
+    min-height: 100vh;
+}
+
+/* When sidebar is collapsed */
+.sidebar.collapsed ~ .main {
+    margin-left: 70px; /* Same as collapsed sidebar width */
+}
+
+.main h2 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.add_btn {
+    background: #0077b6;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-bottom: 20px;
+    transition: background 0.3s;
+}
+
+.add_btn:hover {
+    background: #005f8d;
+}
+
+/* DataTable styling */
+#equipmentTable {
+    width: 100%;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.action-btn {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    margin: 2px;
+    transition: all 0.3s;
+}
+
+.edit-btn {
+    background: #28a745;
+    color: white;
+}
+
+.edit-btn:hover {
+    background: #218838;
+}
+
+.delete-btn {
+    background: #dc3545;
+    color: white;
+}
+
+.delete-btn:hover {
+    background: #c82333;
+}

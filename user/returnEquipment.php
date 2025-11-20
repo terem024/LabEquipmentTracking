@@ -1,10 +1,24 @@
 <?php
-session_start();
+include '../config/session.php';
 
 if (!isset($_SESSION['user_logged_in']) || $_SESSION['user_logged_in'] !== true) {
     header("Location: login.php");
     exit;
 }
+
+$userId = $_SESSION['user_id'] ?? null;
+$fullName = 'User';
+
+if ($userId) {
+    $stmt = $conn->prepare("SELECT full_name FROM users WHERE id = :id");
+    $stmt->execute([':id' => $userId]);
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    if ($row) {
+        $fullName = $row['full_name'];
+    }
+}
+
+$displayName = $_SESSION['user_name'] ?? $fullName;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,16 +30,17 @@ if (!isset($_SESSION['user_logged_in']) || $_SESSION['user_logged_in'] !== true)
 </head>
 <body class="dashboard-body">
 
-    <header class="topbar">
-        <h1>Lab Equipment Tracking</h1>
-        <div class="admin-area">
-            <span>Welcome, User</span>
-            <form method="post" class="logout-form" action="../public/logout.php">
-                <input type="hidden" name="logout" value="1">
-                <button type="submit" class="btn danger">Logout</button>
-            </form>
-        </div>
-    </header>
+<header class="topbar">
+    <h1>Lab Equipment Tracking</h1>
+
+    <div class="admin-area">
+        <span>Welcome, <?= htmlspecialchars($displayName); ?></span>
+        <form method="post" class="logout-form" action="../public/logout.php">
+            <input type="hidden" name="logout" value="1">
+            <button type="submit" class="btn danger">Logout</button>
+        </form>
+    </div>
+</header>
 
     <nav class="navbar">
         <a href="home.php" class="nav-link active">Dashboard</a>

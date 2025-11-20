@@ -1,10 +1,24 @@
 <?php
-session_start();
+include '../config/session.php';
 
 if (!isset($_SESSION['user_logged_in']) || $_SESSION['user_logged_in'] !== true) {
     header("Location: ../public/login.php");
     exit;
 }
+
+$userId = $_SESSION['user_id'] ?? null;
+$fullName = 'User';
+
+if ($userId) {
+    $stmt = $conn->prepare("SELECT full_name FROM users WHERE id = :id");
+    $stmt->execute([':id' => $userId]);
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    if ($row) {
+        $fullName = $row['full_name'];
+    }
+}
+
+$displayName = $_SESSION['user_name'] ?? $fullName;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,16 +30,17 @@ if (!isset($_SESSION['user_logged_in']) || $_SESSION['user_logged_in'] !== true)
 </head>
 <body class="dashboard-body">
 
-    <header class="topbar">
-        <h1>Lab Equipment Tracking</h1>
-        <div class="admin-area">
-            <span>Welcome, User</span>
-            <form method="post" class="logout-form" action="../public/logout.php">
-                <input type="hidden" name="logout" value="1">
-                <button type="submit" class="btn danger">Logout</button>
-            </form>
-        </div>
-    </header>
+<header class="topbar">
+    <h1>Lab Equipment Tracking</h1>
+
+    <div class="admin-area">
+        <span>Welcome, <?= htmlspecialchars($displayName); ?></span>
+        <form method="post" class="logout-form" action="../public/logout.php">
+            <input type="hidden" name="logout" value="1">
+            <button type="submit" class="btn danger">Logout</button>
+        </form>
+    </div>
+</header>
 
     <nav class="navbar">
         <a href="home.php" class="nav-link active">Dashboard</a>
@@ -39,7 +54,27 @@ if (!isset($_SESSION['user_logged_in']) || $_SESSION['user_logged_in'] !== true)
             <h2>Borrow Equipment</h2>
             <p>Please scan the RFID of the equipment that you wish to borrow.</p>
         </div>
-    </main>
 
+        <!-- POPUP -->
+<div id="rfidPopup" class="popup-overlay" style="display:none;">
+    <div class="popup-box">
+        <h3>Equipment Summary</h3>
+
+        <p><strong>Equipment ID:</strong> <span id="eqID"></span></p>
+        <p><strong>Name:</strong> <span id="eqName"></span></p>
+        <p><strong>Category:</strong> <span id="eqCategory"></span></p>
+        <p><strong>Quantity:</strong> <span id="eqQty"></span></p>
+        <p><strong>RFID Tag:</strong> <span id="eqRFID"></span></p>
+
+        <div class="popup-actions">
+            <button class="success" id="confirmBorrow">Confirm</button>
+            <button class="danger" id="cancelBorrow">Cancel</button>
+        </div>
+    </div>
+</div>
+
+
+</main>
+    <script src="rfidHandler.js"></script>
 </body>
 </html>

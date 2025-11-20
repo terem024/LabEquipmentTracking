@@ -270,3 +270,78 @@ body {
   user-select: text;
 }
 
+/* Popup Overlay */
+.popup-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.35);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(2px);
+    z-index: 9999;
+}
+
+/* Popup Box */
+.popup-box {
+    background: #fff;
+    padding: 30px;
+    width: 420px;
+    border-radius: 15px;
+    box-shadow: 0px 8px 25px rgba(0, 0, 0, 0.15);
+    animation: fadeIn 0.2s ease-in-out;
+    text-align: center;
+}
+
+/* Title */
+.popup-box h3 {
+    margin-bottom: 15px;
+    font-size: 24px;
+    color: #0466c8;
+    font-weight: 600;
+}
+
+/* Body text */
+.popup-box p {
+    margin: 8px 0;
+    font-size: 16px;
+    color: #333;
+}
+
+/* Buttons container */
+.popup-actions {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Buttons */
+.popup-actions button {
+    padding: 10px 20px;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 500;
+    transition: 0.2s ease;
+}
+
+.popup-actions .success {
+    background: #2a9d8f;
+}
+
+.popup-actions .danger {
+    background: #e63946;
+}
+
+.popup-actions button:hover {
+    opacity: 0.85;
+}
+
+/* Simple fade animation */
+@keyframes fadeIn {
+    from { transform: scale(0.95); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}

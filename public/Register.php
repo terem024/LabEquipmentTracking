@@ -40,8 +40,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             // Insert user
             $stmt = $conn->prepare("INSERT INTO users 
-                (sr_code, full_name, role, password_hash) 
-                VALUES (:sr_code, :full_name, 'student', :password_hash)");
+                (sr_code, full_name,password_hash) 
+                VALUES (:sr_code, :full_name, :password_hash)");
 
             $inserted = $stmt->execute([
                 ':sr_code' => $sr_code,

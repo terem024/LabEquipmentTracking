@@ -10,8 +10,8 @@ if (!isset($_SESSION['user_logged_in']) || $_SESSION['user_logged_in'] !== true)
     exit;
 }
 
-if ($_SESSION['user_role'] === 'users') {
-    header("Location: ../users/Home.php");
+if ($_SESSION['user_role'] === 'user') {
+    header("Location: ../user/Home.php");
     exit;
 }
 $conn = db();

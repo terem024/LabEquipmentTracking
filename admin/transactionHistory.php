@@ -4,13 +4,12 @@ require_once __DIR__ . '/../config/dbConnection.php';
 
 $conn = db();
 
-
 if (!isset($_SESSION['user_logged_in']) || $_SESSION['user_logged_in'] !== true) {
     header("Location: ../public/login.php");
     exit;
 }
 
-if ($_SESSION['user_role'] === 'user' ||  $_SESSION['user_role'] === '' ) {
+if ($_SESSION['user_role'] === 'user' || $_SESSION['user_role'] === '') {
     header("Location: ../user/Home.php");
     exit;
 }
@@ -20,7 +19,7 @@ $stmt = $conn->query("
     SELECT t.*, u.full_name, u.sr_code, e.item_name
     FROM transactions t
     JOIN users u ON t.user_id = u.user_id
-    JOIN equipment e ON t.equipment_id = e.equipment_id
+    JOIN lab_equipments e ON t.equipment_id = e.equipment_id
     ORDER BY t.borrow_time DESC
 ");
 $transactions = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -50,7 +49,7 @@ $transactions = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <body>
 <div class="container">
     <!-- Sidebar -->
-            <?php include '../admin/logout.php' ?>
+    <?php include '../admin/logout.php' ?>
 
     <!-- Main Content -->
     <div class="main">

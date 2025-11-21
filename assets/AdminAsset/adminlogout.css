@@ -4,7 +4,7 @@
     top: 0;
     height: 100vh;
     width: 250px;
-    background: linear-gradient(135deg, #cc0029, #cc0029);
+    background: linear-gradient(135deg, #f7f7f7, #ffffff);
     color: white;
     transition: width 0.3s ease;
     overflow: hidden;

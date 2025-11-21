@@ -3,6 +3,36 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+
+
+// Redirect to login if no session role
+$currentPage = basename($_SERVER['PHP_SELF']);
+
+if ($currentPage !== 'Login.php' && !isset($_SESSION['role'])) {
+    header("Location: ../public/Login.php");
+    exit();
+}
+
+// Role-based access control functions
+function isAdmin() {
+    return isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
+}
+
+function isUser() {
+    return isset($_SESSION['role']) && $_SESSION['role'] === 'user';
+}
+
+function checkAccess($allowedRoles = []) {
+    if (!in_array($_SESSION['role'], $allowedRoles)) {
+        header("HTTP/1.1 403 Forbidden");
+        echo "Access denied.";
+    }
+}
+
+
+
+
+
 $SESSION_TIMEOUT = 600; // 10 minutes inactivity logout
 
 // Flash message function
@@ -11,6 +41,7 @@ if (!function_exists('setFlash')) {
         $_SESSION['flash'] = ['type' => $type, 'message' => $message];
     }
 }
+
 
 /* ------------------------------
    AUTO-LOGOUT ON INACTIVITY

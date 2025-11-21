@@ -3,17 +3,16 @@ require_once __DIR__ . '/../config/session.php';
 require_once __DIR__ . '/../config/dbConnection.php';
 
 
-
-
 if (!isset($_SESSION['user_logged_in']) || $_SESSION['user_logged_in'] !== true) {
     header("Location: ../public/login.php");
     exit;
 }
 
-if ($_SESSION['user_role'] === 'user') {
+if ($_SESSION['user_role'] === 'user' ||  $_SESSION['user_role'] === '' ) {
     header("Location: ../user/Home.php");
     exit;
 }
+
 $conn = db();
 
 // Fetch all users

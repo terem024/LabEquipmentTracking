@@ -4,6 +4,17 @@ require_once __DIR__ . '/../config/dbConnection.php';
 
 $conn = db();
 
+
+if (!isset($_SESSION['user_logged_in']) || $_SESSION['user_logged_in'] !== true) {
+    header("Location: ../public/login.php");
+    exit;
+}
+
+if ($_SESSION['user_role'] === 'user' ||  $_SESSION['user_role'] === '' ) {
+    header("Location: ../user/Home.php");
+    exit;
+}
+
 // Fetch transactions with JOIN
 $stmt = $conn->query("
     SELECT t.*, u.full_name, u.sr_code, e.item_name
@@ -39,7 +50,7 @@ $transactions = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <body>
 <div class="container">
     <!-- Sidebar -->
-        <?php include '../admin/logout.php' ?>
+            <?php include '../admin/logout.php' ?>
 
     <!-- Main Content -->
     <div class="main">

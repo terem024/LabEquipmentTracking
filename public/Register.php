@@ -3,7 +3,12 @@ include '../config/session.php';
 include '../config/dbConnection.php';
 $conn = db();
 
-
+  if ($_SESSION['user_role'] === 'user' ) {
+      header("Location: ../user/Home.php");
+      exit;
+  }else{
+    header("Location: ../admin/equipmentManagement.php");
+  }
 
 $error = '';
 $success = '';

@@ -77,15 +77,6 @@ html, body {
 }
 
 
-.right-panel h1 {
-
-  font-family: 'Righteous', sans-serif;
-  font-size: 3rem;
-  color: #f72424;
-  letter-spacing: 2px;
-  text-shadow: 2px 2px 0 #181717, 4px 4px 0 #111010;
-}
-
 
 .right-panel h2 {
   margin-bottom: 1rem;
@@ -188,3 +179,67 @@ html, body {
   margin-bottom: 10px;
 }
 
+@media (max-width: 900px) {
+  .split-wrapper {
+    flex-direction: column;
+    height: auto;
+  }
+  .left-panel, .right-panel {
+    min-height: 270px;
+    height: auto;
+    flex: none;
+    width: 100%;
+    background-size: 150px auto;
+    padding: 18px 0;
+  }
+  .right-panel {
+    padding: 1.2rem;
+    background-size: cover;
+  }
+}
+
+
+/* Stack login form above info for narrow screens */
+@media (max-width: 600px) {
+  .split-wrapper {
+    flex-direction: column;
+  }
+  .left-panel, .right-panel {
+    min-height: unset;
+    width: 100%;
+    padding: 10px 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+  .intro-box, .form-container {
+    max-width: 98vw;
+    padding: 18px 7px;
+    border-radius: 10px;
+  }
+  .right-panel h1, .right-panel h2 {
+    font-size: 1.4rem;
+    text-shadow: 0 1px #181717;
+  }
+}
+
+@media (max-width: 420px) {
+  .form-container input, .form-container button {
+    font-size: 14px;
+    padding-right: 20px;
+    width: 100%;
+  }
+  .intro-box, .form-container {
+    padding: 8px 2px;
+  }
+
+
+
+
+
+
+
+
+
+
+
+}

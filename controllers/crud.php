@@ -12,7 +12,6 @@ function csrf_valid($token) {
            hash_equals($_SESSION['csrf_token'], $token);
 }
 
-/* If invalid request or no POST, block immediately */
 if ($_SERVER['REQUEST_METHOD'] !== 'POST' ||
     !csrf_valid($_POST['csrf_token'] ?? '')) {
 
@@ -30,16 +29,12 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST' ||
     exit;
 }
 
-/* ---------------------------------
-   GET ACTION
-----------------------------------*/
 $action = $_POST['action'] ?? '';
 $user_id = intval($_POST['user_id'] ?? 0);
 
-/* ---------------------------------
-   ACTION HANDLERS
-----------------------------------*/
-
+/* ======================================================
+   ACTION HANDLER
+========================================================*/
 switch ($action) {
 
 
@@ -57,7 +52,6 @@ case 'approve_user':
         Swal.fire({
             icon: 'success',
             title: 'User Approved!',
-            text: 'The user has been approved successfully.'
         }).then(() => {
             window.location.href = '../admin/userManagement.php';
         });
@@ -79,8 +73,7 @@ case 'reject_user':
     <script>
         Swal.fire({
             icon: 'warning',
-            title: 'User Rejected',
-            text: 'User has been removed.'
+            title: 'User Rejected'
         }).then(() => {
             window.location.href = '../admin/userManagement.php';
         });
@@ -90,22 +83,30 @@ case 'reject_user':
 
 
 /* ======================================================
-   3. ADD EQUIPMENT
+   3. ADD EQUIPMENT (UPDATED)
 ========================================================*/
+
 case 'add_equipment':
 
-    $name = trim($_POST['equipment_name'] ?? '');
-    $qty  = intval($_POST['quantity'] ?? 0);
+    $name     = trim($_POST['item_name'] ?? '');
+    $rfid     = trim($_POST['rfid_tag'] ?? '');
+    $category = trim($_POST['category'] ?? '');
+    $qty      = intval($_POST['quantity'] ?? 0);
+    $status   = trim($_POST['status'] ?? '');
 
-    $stmt = $conn->prepare("INSERT INTO equipment (equipment_name, quantity) VALUES (?, ?)");
-    $stmt->execute([$name, $qty]);
+    $stmt = $conn->prepare("
+        INSERT INTO lab_equipments (item_name, rfid_tag, category, quantity, status)
+        VALUES (?, ?, ?, ?, ?)
+    ");
+
+    $stmt->execute([$name, $rfid, $category, $qty, $status]);
 
     echo "
     <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
     <script>
         Swal.fire({
             icon: 'success',
-            title: 'Equipment Added',
+            title: 'Equipment Added'
         }).then(() => {
             window.location.href = '../admin/equipmentManagement.php';
         });
@@ -115,16 +116,24 @@ case 'add_equipment':
 
 
 /* ======================================================
-   4. UPDATE EQUIPMENT
+   4. UPDATE EQUIPMENT (UPDATED)
 ========================================================*/
 case 'update_equipment':
 
-    $eid  = intval($_POST['equipment_id'] ?? 0);
-    $name = trim($_POST['equipment_name'] ?? '');
-    $qty  = intval($_POST['quantity'] ?? 0);
+    $eid      = intval($_POST['equipment_id'] ?? 0);
+    $name     = trim($_POST['item_name'] ?? '');
+    $rfid     = trim($_POST['rfid_tag'] ?? '');
+    $category = trim($_POST['category'] ?? '');
+    $qty      = intval($_POST['quantity'] ?? 0);
+    $status   = trim($_POST['status'] ?? '');
 
-    $stmt = $conn->prepare("UPDATE equipment SET equipment_name=?, quantity=? WHERE equipment_id=?");
-    $stmt->execute([$name, $qty, $eid]);
+    $stmt = $conn->prepare("
+        UPDATE lab_equipments 
+        SET item_name=?, rfid_tag=?, category=?, quantity=?, status=? 
+        WHERE equipment_id=?
+    ");
+
+    $stmt->execute([$name, $rfid, $category, $qty, $status, $eid]);
 
     echo "
     <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
@@ -141,13 +150,13 @@ case 'update_equipment':
 
 
 /* ======================================================
-   5. DELETE EQUIPMENT
+   5. DELETE EQUIPMENT (UPDATED)
 ========================================================*/
 case 'delete_equipment':
 
     $eid = intval($_POST['equipment_id'] ?? 0);
 
-    $stmt = $conn->prepare("DELETE FROM equipment WHERE equipment_id=?");
+    $stmt = $conn->prepare("DELETE FROM lab_equipments WHERE equipment_id=?");
     $stmt->execute([$eid]);
 
     echo "
@@ -163,12 +172,15 @@ case 'delete_equipment':
     exit;
 
 
+    /* ======================================================
+   5. RETRIVE EQUIPMENT 
+========================================================*/
+
 
 /* ======================================================
    DEFAULT
 ========================================================*/
 default:
-
     echo "
     <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
     <script>

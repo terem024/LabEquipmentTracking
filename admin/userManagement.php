@@ -44,6 +44,10 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </head>
 <body>
 
+
+
+    
+
     <!-- Sidebar -->
     <?php include '../admin/logout.php' ?>
 

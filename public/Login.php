@@ -13,6 +13,7 @@ if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] === true) 
     exit;
 }
 
+
 $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
